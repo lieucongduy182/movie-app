@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### The Movie Database API
+https://api.themoviedb.org/3/
+    *** image API
+    https://image.tmdb.org/t/p/w500

@@ -1,6 +1,8 @@
 <template>
     <div class="flex">
-        <img src="@/assets/images/logo.png" alt="" />
+        <router-link :to="{name: 'home'}">
+            <img src="@/assets/images/logo.png" alt="" />
+        </router-link>
         <ul class="flex mt-7">
             <li>
                 <router-link to="/movies" class="ml-5">Movies</router-link>
