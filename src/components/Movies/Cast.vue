@@ -4,16 +4,23 @@
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-3 gap-4"
         >
-            <div>
-                <img src="@/assets/images/cast.jpg" alt="" class="object-cover" />
-                <span class="text-gray-300">Joaquin Phoenix</span>
-            </div>
+            <CastItem
+                v-for="(cast, index) in this.cast"
+                :key="index"
+                :cast="cast"
+            />
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+import CastItem from '../Item/CastItem.vue';
+export default {
+    props: ['cast'],
+    components: {
+        CastItem,
+    },
+};
 </script>
 
 <style></style>

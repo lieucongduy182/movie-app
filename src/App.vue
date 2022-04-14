@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto">
+    <div class="container mx-auto bg-gray-900 text-white">
         <div class="flex justify-between border-b border-gray-600">
             <NavBar />
             <SearchBar />

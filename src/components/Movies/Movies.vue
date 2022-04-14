@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="container mx-auto mt-12 flex border-b border-gray-600 pb-3">
-            <img src="@/assets/images/joker.jpg" alt="" class="w-64" />
+            <img :src="imagePostPath" alt="" class="w-64" />
             <div class="ml-24">
-                <h2 class="text-4xl font-semibold">Joker</h2>
+                <h2 class="text-4xl font-semibold">{{ movies.title }}</h2>
                 <div class="flex">
                     <svg
                         class="fill-current text-yellow-500 w-4 h-4 mt-1"
@@ -17,13 +17,20 @@
                         </g>
                     </svg>
                     <span class="text-gray-500 ml-2"
-                        >82 % | 2019-10-02 Crime , Thriller , Drama</span
+                        >{{ movies.vote_average * 10 }} % |
+                        {{ movies.release_date }}
+                        <span
+                            v-for="(genre, index) in movies.genres"
+                            :key="index"
+                            >{{ genre.name
+                            }}<span v-if="movies.genres.length - 1 !== index"
+                                >,
+                            </span></span
+                        ></span
                     >
                 </div>
                 <p class="mt-5">
-                    During the 1980s, a failed stand-up comedian is driven
-                    insane and turns to a life of crime and chaos in Gotham City
-                    while becoming an infamous psychopathic crime figure.
+                    {{ movies.overview }}
                 </p>
                 <div class="mt-5">
                     <span> Featured Cast </span>
@@ -64,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <Cast />
+        <Cast :cast="this.movies.credits.cast" />
     </div>
 </template>
 <script>
@@ -72,6 +79,27 @@ import Cast from './Cast.vue';
 export default {
     components: {
         Cast,
+    },
+    data() {
+        return {
+            movies: [],
+        };
+    },
+    mounted() {
+        this.fetchMovie(this.$route.params.id);
+    },
+    computed: {
+        imagePostPath() {
+            return `https://image.tmdb.org/t/p/w500${this.movies.poster_path}`;
+        },
+    },
+    methods: {
+        async fetchMovie(movieId) {
+            const response = await this.$http.get(
+                `/movie/${movieId}?append_to_response=credits,videos,images`
+            );
+            this.movies = response.data;
+        },
     },
 };
 </script>

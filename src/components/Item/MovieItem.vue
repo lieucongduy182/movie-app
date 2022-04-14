@@ -1,8 +1,8 @@
 <template>
     <div class="mt-5">
-        <router-link to="/movie/2">
+        <router-link :to="`/movie/${movie.id}`">
             <img
-                :src="posterPath"
+                :src="imagePosterPath"
                 alt=""
                 class="object-cover hover:opacity-75 transition ease-in-out"
             />
@@ -37,14 +37,13 @@
 export default {
     props: ['movie', 'genres'],
     computed: {
-        posterPath() {
+        imagePosterPath() {
             return `https://image.tmdb.org/t/p/w500` + this.movie.poster_path;
         },
     },
     methods: {
         getGenreName(genreId, index) {
             for (const item of this.genres) {
-                console.log(index);
                 if (item.id == genreId) {
                     if (this.movie.genre_ids.length - 1 == index) {
                         return item.name;

@@ -25,7 +25,11 @@
         <div v-if="false" class="absolute top-12 bg-gray-600 w-64 rounded">
             <ul class="p-2">
                 <li class="flex items-center py-2 border-b border-gray-500">
-                    <img src="@/assets/images/joker.jpg" class="w-12 object-cover" alt="">    
+                    <img
+                        src="@/assets/images/joker.jpg"
+                        class="w-12 object-cover"
+                        alt=""
+                    />
                     <span class="ml-3">Joker</span>
                 </li>
             </ul>
