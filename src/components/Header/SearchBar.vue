@@ -4,6 +4,8 @@
             type="text"
             class="rounded-full bg-gray-600 px-8 w-50 h-10 mr-4 outline-none focus:outline-gray-700"
             placeholder="Search ..."
+            v-model="searchTerm"
+            @input="debounceSearch"
         />
         <div class="absolute top-0">
             <svg
@@ -22,15 +24,24 @@
             </svg>
         </div>
 
-        <div v-if="false" class="absolute top-12 bg-gray-600 w-64 rounded">
-            <ul class="p-2">
-                <li class="flex items-center py-2 border-b border-gray-500">
+        <div class="absolute top-12 bg-gray-600 w-64 rounded">
+            <ul class="p-2" v-if="this.searchResults.length != 0">
+                <li
+                    class="flex items-center py-2 border-b border-gray-500"
+                    v-for="(movie, index) in this.searchResults"
+                    :key="index"
+                >
                     <img
-                        src="@/assets/images/joker.jpg"
+                        :src="imagePostPath(movie.poster_path)"
                         class="w-12 object-cover"
                         alt=""
                     />
-                    <span class="ml-3">Joker</span>
+                    <span class="ml-3">{{ movie.title }}</span>
+                </li>
+            </ul>
+            <ul class="px-3">
+                <li v-if="noResultFound && this.searchResults.length == 0">
+                    No Result Found {{ this.searchTerm }}
                 </li>
             </ul>
         </div>
@@ -43,6 +54,40 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            searchTerm: '',
+            searchResults: [],
+            noResultFound: false,
+        };
+    },
+    methods: {
+        async fetchSearchTerm(term) {
+            try {
+                const response = await this.$http.get(
+                    `/search/movie?query=${term}`
+                );
+                this.searchResults = response.data.results;
+                this.noResultFound = this.searchResults ? true : false;
+            } catch (error) {
+                this.noResultFound = false;
+                this.searchResults = [];
+            }
+        },
+        debounceSearch() {
+            setTimeout(() => {
+                this.fetchSearchTerm(this.searchTerm);
+            }, 500);
+        },
+        imagePostPath(poster_path) {
+            if (poster_path) {
+                return `https://image.tmdb.org/t/p/w500${poster_path}`;
+            } else {
+                return `http://via.placeholder.com/50x75`;
+            }
+        },
+    },
+};
 </script>
 <style lang=""></style>

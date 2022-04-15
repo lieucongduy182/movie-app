@@ -35,22 +35,28 @@
                 <div class="mt-5">
                     <span> Featured Cast </span>
                     <div class="flex">
-                        <div class="mt-5 mr-10 flex flex-col">
-                            <span>Scott Silver</span>
-                            <span class="text-sm text-gray-500">Writer</span>
-                        </div>
-                        <div class="mt-5 flex flex-col">
-                            <span>Bruce Berman</span>
-                            <span class="text-gray-500"
-                                >Executive Producer</span
+                        <div
+                            v-for="(crew, index) in this.movies.credits.crew"
+                            :key="index"
+                        >
+                            <div
+                                v-if="index < 2"
+                                class="mt-5 mr-10 flex flex-col"
                             >
+                                <span>{{ crew.name }}</span>
+                                <span class="text-sm text-gray-500">{{
+                                    crew.job
+                                }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-10">
-                    <button
+                    <a
                         class="rounded bg-yellow-500 px-5 py-4 inline-flex text-black"
+                        :href="youtubeVideo"
+                        target="blank"
                     >
                         <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
                             <path d="M0 0h24v24H0z" fill="none" />
@@ -60,7 +66,7 @@
                         </svg>
 
                         <span class="ml-3">Play Trailer</span>
-                    </button>
+                    </a>
                     <a
                         to="#"
                         class="rounded bg-yellow-500 px-5 py-4 inline-flex text-black ml-5"
@@ -72,17 +78,32 @@
             </div>
         </div>
         <Cast :cast="this.movies.credits.cast" />
+        <Images :images="this.movies.images.backdrops" />
     </div>
 </template>
 <script>
 import Cast from './Cast.vue';
+import Images from './Images.vue';
 export default {
     components: {
         Cast,
+        Images,
     },
     data() {
         return {
-            movies: [],
+            movies: {
+                credits: {
+                    crew: {},
+                },
+                images: {
+                    backdrops: {},
+                },
+                videos: {
+                    results: [
+                    
+                    ],
+                },
+            },
         };
     },
     mounted() {
@@ -91,6 +112,9 @@ export default {
     computed: {
         imagePostPath() {
             return `https://image.tmdb.org/t/p/w500${this.movies.poster_path}`;
+        },
+        youtubeVideo() {
+            return `https://www.youtube.com/embed/${this.movies.videos.results[0].key}`;
         },
     },
     methods: {
@@ -103,4 +127,3 @@ export default {
     },
 };
 </script>
-<style></style>

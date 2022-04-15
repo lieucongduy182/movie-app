@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img :src="getProfileImage" alt="" class="object-cover" />
+        <img :src="castProFileImage" alt="" class="object-cover" />
         <span class="text-gray-300">{{ cast.character }}</span>
     </div>
 </template>
@@ -8,7 +8,7 @@
 export default {
     props: ['cast'],
     computed: {
-        getProfileImage() {
+        castProFileImage() {
             if (this.cast.profile_path !== null) {
                 return `https://image.tmdb.org/t/p/w500${this.cast.profile_path}`;
             } else {

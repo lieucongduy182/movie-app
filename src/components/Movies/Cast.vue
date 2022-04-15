@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto mt-5">
+    <div class="container mx-auto mt-5 border-b border-gray-600 pb-2">
         <h2 class="text-4xl font-semibold">Cast</h2>
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-3 gap-4"
