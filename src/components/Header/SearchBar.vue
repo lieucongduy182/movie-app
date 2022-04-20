@@ -1,11 +1,13 @@
 <template>
     <div class="flex mt-6 relative">
         <input
+            ref="searchBox"
             type="text"
             class="rounded-full bg-gray-600 px-8 w-50 h-10 mr-4 outline-none focus:outline-gray-700"
             placeholder="Search ..."
             v-model="searchTerm"
             @input="debounceSearch"
+            @focus="handleFocus"
         />
         <div class="absolute top-0">
             <svg
@@ -25,24 +27,31 @@
         </div>
 
         <div class="absolute top-12 bg-gray-600 w-64 rounded">
-            <ul class="p-2" v-if="this.searchResults.length != 0">
+            <ul class="p-2" v-if="showSearchrResult">
                 <li
-                    class="flex items-center py-2 border-b border-gray-500"
                     v-for="(movie, index) in this.searchResults"
                     :key="index"
+                    @click="showSearchrResult = false"
                 >
-                    <img
-                        :src="imagePostPath(movie.poster_path)"
-                        class="w-12 object-cover"
-                        alt=""
-                    />
-                    <span class="ml-3">{{ movie.title }}</span>
+                    <router-link
+                        :to="`/movie/${movie.id}`"
+                        class="flex items-center py-2 border-b border-gray-500"
+                    >
+                        <img
+                            :src="imagePostPath(movie.poster_path)"
+                            class="w-12 object-cover"
+                        />
+                        <span class="ml-3">{{ movie.title }}</span>
+                    </router-link>
                 </li>
             </ul>
-            <ul class="px-3">
-                <li v-if="noResultFound && this.searchResults.length == 0">
-                    No Result Found {{ this.searchTerm }}
-                </li>
+            <ul
+                class="px-3"
+                v-if="
+                    showSearchrResult == true && this.searchResults.length == 0
+                "
+            >
+                <li>No Result Found {{ this.searchTerm }}</li>
             </ul>
         </div>
 
@@ -59,20 +68,47 @@ export default {
         return {
             searchTerm: '',
             searchResults: [],
-            noResultFound: false,
+            showSearchrResult: false,
         };
     },
+    mounted() {
+        this.keyboardEvents();
+    },
     methods: {
+        handleFocus() {
+            if (this.searchTerm != '') {
+                this.showSearchrResult = true;
+            }
+        },
+        keyboardEvents() {
+            window.addEventListener('click', (e) => {
+                if (!this.$el.contains(e.target)) {
+                    this.showSearchrResult = false;
+                }
+            });
+            window.addEventListener('keypress', (e) => {
+                if (e.keyCode == 47) {
+                    e.preventDefault();
+                    this.$refs.searchBox.focus();
+                }
+            });
+            window.addEventListener('keydown', (e) => {
+                if (e.keyCode == 27) {
+                    this.showSearchrResult = false;
+                    this.searchTerm = '';
+                }
+            });
+        },
         async fetchSearchTerm(term) {
             try {
                 const response = await this.$http.get(
                     `/search/movie?query=${term}`
                 );
                 this.searchResults = response.data.results;
-                this.noResultFound = this.searchResults ? true : false;
+                this.showSearchrResult = this.searchResults ? true : false;
             } catch (error) {
-                this.noResultFound = false;
-                this.searchResults = [];
+                this.showSearchrResult = false;
+                console.log(error);
             }
         },
         debounceSearch() {
