@@ -5,7 +5,7 @@
         tabindex="0"
         v-show="value"
     >
-        <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
+        <div class="container mt-4 mx-auto lg:px-32 lg:mx-32 rounded-lg overflow-y-auto">
             <div class="bg-gray-900 rounded">
                 <div class="flex justify-end pr-4 pt-2">
                     <button
