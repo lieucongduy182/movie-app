@@ -22,13 +22,13 @@ export default {
         };
     },
     mounted() {
-        this.fetchActors(1);
+        this.fetchActors();
     },
     methods: {
-        async fetchActors(numberPage) {
+        async fetchActors() {
             try {
                 const response = await this.$http.get(
-                    `/person/popular?page${numberPage}`
+                    `/person/popular`
                 );
                 this.actors = response.data.results;
             } catch (error) {

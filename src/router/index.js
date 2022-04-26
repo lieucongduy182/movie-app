@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Movies from '../components/Movies/Movies.vue';
 import Actors from '../views/Actors.vue';
+import ActorDetail from '@/components/Actors/ActorDetail.vue';
 Vue.use(VueRouter);
 
 const routes = [
@@ -21,7 +22,11 @@ const routes = [
         name: 'actors',
         component: Actors,
     },
-
+    {
+        path: '/actors/:id',
+        name: 'ActorDetail',
+        component: ActorDetail,
+    },
 ];
 
 const router = new VueRouter({
