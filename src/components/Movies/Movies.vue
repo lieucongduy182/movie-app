@@ -117,6 +117,12 @@ export default {
     mounted() {
         this.fetchMovie(this.$route.params.id);
     },
+    watch: {
+        '$route.params.id': function handleChange() {
+            this.fetchMovie(this.$route.params.id);
+        },
+        immediate: true,
+    },
     computed: {
         imagePostPath() {
             if (this.movies.poster_path) {
@@ -132,10 +138,14 @@ export default {
     },
     methods: {
         async fetchMovie(movieId) {
-            const response = await this.$http.get(
-                `/movie/${movieId}?append_to_response=credits,videos,images`
-            );
-            this.movies = response.data;
+            try {
+                const response = await this.$http.get(
+                    `/movie/${movieId}?append_to_response=credits,videos,images`
+                );
+                this.movies = response.data;
+            } catch (error) {
+                console.log(error);
+            }
         },
         openModelYoutubeVideo() {
             this.mediaURL = this.youtubeVideo;

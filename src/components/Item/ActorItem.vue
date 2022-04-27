@@ -9,7 +9,7 @@
         <h2>{{ actor.name }}</h2>
         <span
             class="text-gray-500 text-sm"
-            v-for="(item, index) in actor.known_for"
+            v-for="(item, index) in known_for"
             :key="index"
         >
             {{ knownFor(item, index) }}
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-    props: ['actor'],
+    props: ['actor', 'known_for'],
     computed: {
         imageProfile() {
             return `https://image.tmdb.org/t/p/w500/${this.actor.profile_path} `;
@@ -30,7 +30,6 @@ export default {
     },
     methods: {
         knownFor(item, index) {
-            if (!item.title) return;
             if (this.actor.known_for.length - 1 == index) {
                 return item.title;
             } else {

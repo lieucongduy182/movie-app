@@ -1,6 +1,8 @@
 <template>
     <div>
-        <img :src="castProFileImage" alt="" class="object-cover" />
+        <router-link :to="`/actors/${cast.id}`">
+            <img :src="castProFileImage" alt="" class="object-cover hover:opacity-75 transition ease-in-out" />
+        </router-link>
         <span class="text-gray-300">{{ cast.character }}</span>
     </div>
 </template>
