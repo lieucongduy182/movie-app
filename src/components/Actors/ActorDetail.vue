@@ -123,7 +123,9 @@ export default {
             const response = await this.$http.get(
                 `/person/${actorId}/combined_credits`
             );
-            this.knownFor = response.data.cast.slice(0, 5);
+            this.knownFor = response.data.cast
+                .filter((x) => (x.media_type = 'movie'))
+                .slice(0, 5);
         },
         imagePosterPath(poster_path) {
             if (poster_path) {

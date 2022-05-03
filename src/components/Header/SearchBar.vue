@@ -54,16 +54,15 @@
                 <li>No Result Found {{ this.searchTerm }}</li>
             </ul>
         </div>
-
-        <img
-            src="@/assets/images/avatar.jpg"
-            alt=""
-            class="h-10 w-10 rounded-full object-cover"
-        />
+        <AccountDropDown />
     </div>
 </template>
 <script>
+import AccountDropDown from './AccountDropDown.vue';
 export default {
+    components: {
+        AccountDropDown,
+    },
     data() {
         return {
             searchTerm: '',
