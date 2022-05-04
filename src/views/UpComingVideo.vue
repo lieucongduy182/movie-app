@@ -6,6 +6,7 @@
             :clickable="false"
             :listData="upComingVideos"
             :height="500"
+            :key="upComingVideos.length"
         >
             <slide
                 v-for="(movie, i) in this.upComingVideos"
@@ -55,7 +56,7 @@ export default {
     },
 };
 </script>
-<style>
+<style scoped>
 .carousel-3d-container figure {
     margin: 0;
 }
